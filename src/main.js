@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from './App2.vue'
+import adapter from 'webrtc-adapter'
 
 Vue.config.productionTip = false
 

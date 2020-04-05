@@ -1,28 +1,70 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div>Let's Chat!</div>
+    <video v-show="streaming" @canplay="initCanvas" ref="video"></video>
+    <img v-show="!streaming" src="./assets/avatar.jpg" alt />
+    <button @click="capture">Capture</button>
+    <button @click="stopStreaming">stop</button>
+    <canvas ref="canvas"></canvas>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      streaming: false
+    };
+  },
+
+  methods: {
+    initCanvas() {
+      if (!this.streaming) {
+        const { video, canvas } = this.$refs;
+
+        canvas.setAttribute("width", video.getAttribute("width"));
+        canvas.setAttribute("height", video.getAttribute("height"));
+
+        this.streaming = true;
+      }
+    },
+
+    capture() {
+      const { canvas, video } = this.$refs;
+      const context = canvas.getContext("2d");
+
+      context.drawImage(video, 0, 0, 100, 200);
+    },
+
+    stopStreaming () {
+      this.$refs.video.srcObject.getTracks()[0].stop();
+    }
+  },
+
+  created() {
+    (async () => {
+      try {
+        const steam = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+        this.$refs.video.srcObject = steam;
+        this.$refs.video.play();
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }
-}
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss" scoped>
+video {
+  transform: rotateY(180deg);
+  width: 100%;
+}
+
+img {
+  width: 100%;
 }
 </style>
