@@ -1,7 +1,14 @@
-const app = require('http').createServer()
+const fs = require('fs')
+const app = require('https').createServer({
+	key: fs.readFileSync('/opt/bitnami/letsencrypt/certificates/mewsq.xyz.key'),
+	ca: [fs.readFileSync('/opt/bitnami/letsencrypt/certificates/mewsq.xyz.issuer.crt')],
+	cert: fs.readFileSync('/opt/bitnami/letsencrypt/certificates/mewsq.xyz.crt')
+})
 const io = require('socket.io')(app)
 
 const port = 38008
+
+// /opt/bitnami/letsencrypt/certificates
 
 app.listen(port)
 

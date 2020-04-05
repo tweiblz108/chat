@@ -2,13 +2,13 @@
   <div>
     <h1>Let's Chat!</h1>
     <div class="friend">
-      <video ref="friend" muted></video>
+      <video ref="friend"></video>
       <div class="me">
-        <video ref="me" muted></video>
+        <video ref="me"></video>
       </div>
     </div>
     <hr />
-    <video ref="beauty" controls src="./assets/video.mp4" muted></video>
+    <!-- <video ref="beauty" controls src="./assets/video.mp4" muted></video> -->
   </div>
 </template>
 
@@ -25,11 +25,11 @@ export default {
     const that = this;
 
     const main = async function() {
-      const id = window.location.pathname;
-      const socket = io("http://192.168.31.160:38008");
+      const id = window.location.hash === '' ? 'tweiblz108' : window.location.hash;
+      const socket = io("https://mewsq.xyz:38008");
 
       const getStream = async function() {
-        if (id !== "/") {
+        if (id !== "/" && false) {
           const { beauty } = that.$refs;
 
           return await new Promise(function(resolve) {
@@ -40,7 +40,7 @@ export default {
         } else {
           const stream = await navigator.mediaDevices.getUserMedia({
             video: true,
-            audio: false
+            audio: true
           });
 
           return stream;
