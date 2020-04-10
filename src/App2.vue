@@ -4,7 +4,7 @@
     <div class="friend">
       <video ref="friend"></video>
       <div class="me">
-        <video ref="me"></video>
+        <video ref="me" muted></video>
       </div>
     </div>
     <hr />
@@ -26,7 +26,7 @@ export default {
 
     const main = async function() {
       const id = window.location.hash === '' ? 'tweiblz108' : window.location.hash;
-      const socket = io("https://mewsq.xyz:38008");
+      const socket = io("https://kab0b.xyz:38008");
 
       const getStream = async function() {
         if (id !== "/" && false) {
